@@ -35,9 +35,8 @@
       const tickets = [...Array(-~+$('#ncount').val()).keys()].slice(+true).shuffle().map(ticket => pad(ticket, $('#ncount').val().length));
       const items = list.map((item, index) => (item.id = -~index, item.ticket = tickets.at(index), item));
 
-      for (item of items) {
+      for (const { id, gift, donor, ticket } of items) {
 
-        const { id, gift, donor, ticket } = item;
         const row = `<tr class="delrows">
                         <td>${id}</td>
                         <td>${gift}</td>
