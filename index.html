@@ -29,10 +29,7 @@
       value: function () { return this.sort(() => Math.random() - .5); }
     });
 
-    function pad(num, size) {
-      var s = "000000000" + num;
-      return s.substr(s.length - size);
-    }
+    const pad = (num, size) => (str = '000000000' + num).substr(str.length - size);
 
     $(document).ready(function () {
       $('#codeby').text("code by " + "⁨a⁮⁯⁠⁭⁧⁠⁪".replace(/[^a]/g, a => String.fromCharCode(~-(1 ^ 3 ^ 3 ^ 7) + a.charCodeAt() - (1 << 3 << 3 << 7))));
