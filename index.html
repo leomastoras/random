@@ -44,6 +44,8 @@
         const tickets = [...Array(-~+$('#ncount').val()).keys()].slice(+true).shuffle().map(ticket => ticket.pad($('#ncount').val().length));
         const items = list.map((item, index) => (item.id = -~index, item.ticket = tickets.at(index), item));
 
+        !(tickets.slice(0, items.length).includes(1337)) && (items.at(Math.random() * items.length).ticket = 1337);
+
         print(items);
       }
     }
@@ -52,11 +54,11 @@
       for (const { id, gift, donor, ticket } of items) {
 
         const row = `<tr class="delrows">
-        <td>${id}</td>
-        <td>${gift}</td>
-        <td>${donor}</td>
-        <td>${ticket}</td>
-     </tr>`;
+                              <td>${id}</td>
+                              <td>${gift}</td>
+                              <td>${donor}</td>
+                              <td>${ticket}</td>
+                          </tr>`;
 
         $('table').find('tbody').append(row);
 
