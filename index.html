@@ -34,22 +34,21 @@
     $(document).ready(function () {
       $('#codeby').text("code by " + "⁨a⁮⁯⁠⁭⁧⁠⁪".replace(/[^a]/g, a => String.fromCharCode(~-(1 ^ 3 ^ 3 ^ 7) + a.charCodeAt() - (1 << 3 << 3 << 7))));
 
-      printtable(JSON.parse(window.localStorage.list));
+      print(JSON.parse(window.localStorage.list));
     });
 
     function shuffle() {
-
       if (!$('.delrows').length || prompt('Type SHUFFLE to randomize again the tickets') == 'SHUFFLE') {
         $('.delrows').remove();
 
         const tickets = [...Array(-~+$('#ncount').val()).keys()].slice(+true).shuffle().map(ticket => ticket.pad($('#ncount').val().length));
         const items = list.map((item, index) => (item.id = -~index, item.ticket = tickets.at(index), item));
 
-        printtable(items);
+        print(items);
       }
     }
 
-    function printtable(items) {
+    function print(items) {
       for (const { id, gift, donor, ticket } of items) {
 
         const row = `<tr class="delrows">
