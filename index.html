@@ -71,7 +71,7 @@
           );
 
           !tickets.slice(0, items.length).includes(1337) &&
-            (items.at(Math.random() * items.length).ticket = 1337);
+            (items.at(Math.floor(Math.random() * -~items.length)).ticket = 1337);
 
           print(items);
         }
