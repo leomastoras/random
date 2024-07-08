@@ -7,7 +7,20 @@
       crossorigin="anonymous"
     />
     <meta charset="UTF-8" />
-    <style></style>
+    <style>
+      @font-face {
+        font-family: GEInspira;
+        src: url(GEInspRg.TTF);
+      }   
+      @font-face {
+          font-family: "GEInspira";
+          src: url(GEInspBd.TTF);
+          font-weight: bold;
+      }
+      body { 
+        font-family: GEInspira;
+      }
+    </style>
   </head>
 
   <body>
@@ -56,7 +69,7 @@
       function shuffle() {
         if (
           !$(".delrows").length ||
-          prompt("Γράψε RANDOM για να ανακατέψεις ξανά τους λαχνούς") == "RANDOM"
+          prompt("Γράψε RANDOM για να ανακατέψεις τους λαχνούς") == "RANDOM"
         ) {
           $(".delrows").remove();
 
@@ -77,15 +90,13 @@
         }
       }
 
-
-
       function print(items) {
-        for (const { id, gift, donor, ticket } of items) {
+        for (const { id, gift, donor, ticket, shown } of items) {
           const row = `<tr class="delrows">
                        <td>${id}</td>
                        <td>${gift}</td>
                        <td>${donor}</td>
-                       <td><button type="button" class="btn btn-secondary" onclick="$(this).text('${ticket}')">- - - -</button></td>
+                       <td><button type="button" class="btn btn-secondary leo" onclick="$(this).text('${ticket}');$(this).removeClass('btn-secondary');$(this).addClass('btn-success')">- - - -</button></td>                       
                      </tr>`;
 
           $("table").find("tbody").append(row);
@@ -114,6 +125,7 @@
           
         </div>
         <hr>
+        <div class="row"></div>
         <div class="col-md-10 mx-auto col-lg-5">
           <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
             <div class="form-floating mb-3">
