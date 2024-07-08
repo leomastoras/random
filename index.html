@@ -56,7 +56,7 @@
       function shuffle() {
         if (
           !$(".delrows").length ||
-          prompt("Type SHUFFLE to randomize again the tickets") == "SHUFFLE"
+          prompt("Γράψε RANDOM για να ανακατέψεις ξανά τους λαχνούς") == "RANDOM"
         ) {
           $(".delrows").remove();
 
@@ -77,7 +77,7 @@
         }
       }
 
-      //unction()
+
 
       function print(items) {
         for (const { id, gift, donor, ticket } of items) {
@@ -105,12 +105,15 @@
           <img src="logo.jpg" width="300px">
         </div>
         <div class="col-lg-8 text-center text-lg-start">
-          <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">
-            Random Shuffle
-          </h1>
-          <p class="col-lg-10 fs-4">Assign random tickets to a gift list</p>
-          <p id="codeby" class="text-body-secondary"></p>
+          <h4 class=" fw-bold lh-1 text-body-emphasis mb-3 text-center">
+            ΕΚΠΟΛΙΤΙΣΤΙΚΟΣ ΕΠΙΜΟΡΦΩΤΙΚΟΣ ΕΞΩΡΑΪΣΤΙΚΟΣ ΣΥΛΛΟΓΟΣ ΤΩΝ ΑΠΑΝΤΑΧΟΥ ΘΑΡΡΟΥΝΙΑΤΩΝ
+          </h4>
+          <h1 class="display-2 text-center fw-bold">‹‹ Η ΠΡΟΟΔΟΣ ››</h1>
+          <p class="fs-12 text-center text-body-secondary">Κλήρωση λαχνών με υπερσύγχρονη ηλεκτρονική μορφή που διασφαλίζει την ακεραιότητα της διαδικασίας και εγγυάται δίκαιο αποτέλεσμα</p>
+          <!--<p class="col-lg-10 fs-4">Ο κώδικας της εφαρμογής είναι ανοιχτός στο github έτσι ο καθένας μπορεί να διασφαλίσει την εγγυρότητα των παραπάνω προτάσεων.</p>-->
+          
         </div>
+        <hr>
         <div class="col-md-10 mx-auto col-lg-5">
           <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
             <div class="form-floating mb-3">
@@ -121,7 +124,7 @@
                 placeholder="Total number of tickets"
                 value="5000"
               />
-              <label for="ncount">Total number of tickets</label>
+              <label for="ncount">Συνολικός αριθμός λαχνών</label>
             </div>
 
             <button
@@ -129,7 +132,7 @@
               class="w-100 btn btn-lg btn-dark"
               onclick="shuffle()"
             >
-              Shuffle!
+              Ανακάτεψε
             </button>
           </form>
         </div>
@@ -141,14 +144,17 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Gift</th>
-                <th scope="col">Donor</th>
-                <th scope="col">Ticket #</th>
+                <th scope="col">Δώρο</th>
+                <th scope="col">Χορηγός</th>
+                <th scope="col">Λαχνός #</th>
               </tr>
             </thead>
             <tbody></tbody>
           </table>
         </div>
+      </div>
+      <div class="row">
+        <p id="codeby" class="text-body-secondary"></p>
       </div>
     </div>
   </body>
