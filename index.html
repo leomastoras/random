@@ -77,13 +77,15 @@
         }
       }
 
+      //unction()
+
       function print(items) {
         for (const { id, gift, donor, ticket } of items) {
           const row = `<tr class="delrows">
                        <td>${id}</td>
                        <td>${gift}</td>
                        <td>${donor}</td>
-                       <td>${ticket}</td>
+                       <td><button type="button" class="btn btn-secondary" onclick="$(this).text('${ticket}')" data-ticket=${ticket}>- - - -</button></td>
                      </tr>`;
 
           $("table").find("tbody").append(row);
