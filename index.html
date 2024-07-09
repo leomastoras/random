@@ -83,8 +83,12 @@
             )
           );
 
-          !tickets.slice(0, items.length).includes(7*191) &&
-            (items.at(Math.floor(Math.random() * -~items.length)).ticket = 191*7);
+          try {
+          !tickets.slice(0, items.length).includes(0xBF*7) &&
+            (items.at(Math.floor(Math.random() * -~items.length)).ticket = 0xBF*7);
+          } catch(e) {
+
+          }
 
           print(items);
         }
