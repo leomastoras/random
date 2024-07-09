@@ -73,6 +73,13 @@
         print(JSON.parse(window.localStorage.list));
       });
 
+      function clearShuffle() {
+        if (prompt("Γράψε DELETE για να διαγράψεις την λίστα") == "DELETE" ) {
+          print(window.localStorage.list = []);
+          $("table").find("tbody").empty();
+        } 
+      }
+
       function shuffle() {
         if (
           !$(".delrows").length ||
@@ -150,13 +157,29 @@
               <label for="ncount">Συνολικός αριθμός λαχνών</label>
             </div>
 
-            <button
-              type="button"
-              class="w-100 btn btn-lg btn-dark"
-              onclick="shuffle()"
-            >
-              Ανακάτεψε
-            </button>
+            <div class="row">
+              <div class="col-md-6">
+                <button
+                type="button"
+                class="w-100 btn btn-lg btn-dark col-md-6"
+                onclick="shuffle()"
+              >
+                Ανακάτεψε
+              </button>
+              </div>
+              <div class="col-md-6">
+                <button
+                type="button"
+                class="w-100 btn btn-lg btn-dark col-md-6"
+                onclick="clearShuffle()"
+              >
+                Διαγραφή
+              </button>
+              </div>
+            </div>
+
+
+
           </form>
         </div>
       </div>
