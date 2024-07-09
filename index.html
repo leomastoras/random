@@ -11,13 +11,13 @@
       @font-face {
         font-family: GEInspira;
         src: url(GEInspRg.TTF);
-      }   
+      }
       @font-face {
           font-family: "GEInspira";
           src: url(GEInspBd.TTF);
           font-weight: bold;
       }
-      body { 
+      body {
         font-family: GEInspira;
         cursor: url('small.png'), auto;
 
@@ -27,6 +27,13 @@
         text-shadow:1px 1px 4px #035e03, 1px 1px 4px #5cb85c;
       }
 
+      .leo {
+        margin-bottom: 75px;
+      }
+
+      .codebyleo {
+        color:rgb(208, 192, 219);
+      }
     </style>
   </head>
 
@@ -74,10 +81,11 @@
       });
 
       function clearShuffle() {
-        if (prompt("Γράψε DELETE για να διαγράψεις την λίστα") == "DELETE" ) {
-          print(window.localStorage.list = []);
-          $("table").find("tbody").empty();
-        } 
+        if (prompt("Γράψε DELETE για να διαγράψεις την λίστα") == "DELETE") {
+          print((window.localStorage.list = []));
+          //$("table").find("tbody").empty();
+          $(".delrows").remove();
+        }
       }
 
       function shuffle() {
@@ -87,39 +95,71 @@
         ) {
           $(".delrows").remove();
 
-          const tickets = [...Array(-~+$("#ncount").val()).keys()]
-            .slice(+true)
+          //const tickets = [...Array(-~+$("#ncount").val()).keys()]
+          //  .slice(+true)
+          let valids = parsePart($("#ncount").val());
+          const tickets = valids
             .shuffle()
-            .map((ticket) => ticket.pad($("#ncount").val().length));
+            //.map((ticket) => ticket.pad($("#ncount").val().length));
+            .map((ticket) => ticket.pad((valids.at(-1) + '').length));
           const items = list.map(
             (item, index) => (
               (item.id = -~index), (item.ticket = tickets.at(index)), item
             )
           );
 
-          try {
-          !tickets.slice(0, items.length).includes(0xBF*7) &&
-            (items.at(Math.floor(Math.random() * -~items.length)).ticket = 0xBF*7);
-          } catch(e) {
-
-          }
+          //try {
+          //  !tickets.slice(0, items.length).includes(0xbf * 7) &&
+          //    (items.at(Math.floor(Math.random() * -~items.length)).ticket =
+          //      0xbf * 7);
+          //} catch (e) {}
 
           print(items);
         }
       }
 
       function print(items) {
-        for (const { id, gift, donor, ticket, shown } of items) {
+        for (const { id, gift, donor, ticket } of items) {
           const row = `<tr class="delrows">
                        <td>${id}</td>
                        <td>${gift}</td>
                        <td>${donor}</td>
-                       <td><button type="button" class="btn btn-secondary leo" onclick="$(this).text('${ticket}');$(this).removeClass('btn-secondary');$(this).addClass('btn-success')">- - - -</button></td>                       
+                       <td><button type="button" class="btn btn-secondary" onclick="$(this).text('${ticket}');$(this).removeClass('btn-secondary');$(this).addClass('btn-success')">- - - -</button></td>                       
                      </tr>`;
 
           $("table").find("tbody").append(row);
         }
         window.localStorage.setItem("list", JSON.stringify(items));
+      }
+
+      function parsePart(string) {
+        let res = [];
+        let m;
+
+        for (let str of string.split(",").map((str) => str.trim())) {
+          // just a number
+          if (/^-?\d+$/.test(str)) {
+            res.push(parseInt(str, 10));
+          } else if (
+            (m = str.match(/^(-?\d+)(-|\.\.\.?|\u2025|\u2026|\u22EF)(-?\d+)$/))
+          ) {
+            // 1-5 or 1..5 (equivalent) or 1...5 (doesn't include 5)
+            let [_, lhs, sep, rhs] = m;
+
+            if (lhs && rhs) {
+              lhs = parseInt(lhs);
+              rhs = parseInt(rhs);
+              const incr = lhs < rhs ? 1 : -1;
+
+              // Make it inclusive by moving the right 'stop-point' away by one.
+              if (sep === "-" || sep === ".." || sep === "\u2025") rhs += incr;
+
+              for (let i = lhs; i !== rhs; i += incr) res.push(i);
+            }
+          }
+        }
+
+        return res;
       }
     </script>
 
@@ -131,20 +171,24 @@
           </h1>
           <p class="col-lg-10 fs-4">Assign random tickets to a gift list</p>
           <p id="codeby" class="text-body-secondary"></p>-->
-          <img src="logo.jpg" width="300px">
+          <img src="logo2.png" width="300px" />
         </div>
         <div class="col-lg-8 text-center text-lg-start">
-          <h4 class=" fw-bold lh-1 text-body-emphasis mb-3 text-center">
-            ΕΚΠΟΛΙΤΙΣΤΙΚΟΣ ΕΠΙΜΟΡΦΩΤΙΚΟΣ ΕΞΩΡΑΪΣΤΙΚΟΣ ΣΥΛΛΟΓΟΣ ΤΩΝ ΑΠΑΝΤΑΧΟΥ ΘΑΡΡΟΥΝΙΑΤΩΝ
+          <h4 class="fw-bold lh-1 text-body-emphasis mb-3 text-center">
+            ΕΚΠΟΛΙΤΙΣΤΙΚΟΣ ΕΠΙΜΟΡΦΩΤΙΚΟΣ ΕΞΩΡΑΪΣΤΙΚΟΣ ΣΥΛΛΟΓΟΣ ΤΩΝ ΑΠΑΝΤΑΧΟΥ
+            ΘΑΡΡΟΥΝΙΑΤΩΝ
           </h4>
           <h1 class="display-2 text-center fw-bold glowleo">‹‹ Η ΠΡΟΟΔΟΣ ››</h1>
-          <p class="fs-12 text-center text-body-secondary">Κλήρωση λαχνών με υπερσύγχρονη ηλεκτρονική μορφή που με απόλυτη διαφάνεια διασφαλίζει την ακεραιότητα της διαδικασίας και εγγυάται δίκαιο αποτέλεσμα </p>
+          <p class="fs-12 text-center text-body-secondary">
+            Κλήρωση λαχνών με υπερσύγχρονη ηλεκτρονική μορφή που με απόλυτη
+            διαφάνεια διασφαλίζει την ακεραιότητα της διαδικασίας και εγγυάται
+            δίκαιο αποτέλεσμα
+          </p>
           <!--<p class="col-lg-10 fs-4">Ο κώδικας της εφαρμογής είναι ανοιχτός στο github έτσι ο καθένας μπορεί να διασφαλίσει την εγγυρότητα των παραπάνω προτάσεων.</p>-->
-          
         </div>
-        <hr>
-        <div class="row"></div>
-        <div class="col-md-10 mx-auto col-lg-5">
+        <hr />
+        <div class="row leo"></div>
+        <div class="col-md-10 mx-auto col-lg-8">
           <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
             <div class="form-floating mb-3">
               <input
@@ -152,34 +196,31 @@
                 class="form-control"
                 id="ncount"
                 placeholder="Total number of tickets"
-                value="5000"
+                value="1..5000"
               />
-              <label for="ncount">Συνολικός αριθμός λαχνών</label>
+              <label for="ncount">Αριθμοί λαχνών που συμμετέχουν στην κλήρωση</label>
             </div>
 
             <div class="row">
               <div class="col-md-6">
                 <button
-                type="button"
-                class="w-100 btn btn-lg btn-dark col-md-6"
-                onclick="shuffle()"
-              >
-                Ανακάτεψε
-              </button>
+                  type="button"
+                  class="w-100 btn btn-lg btn-dark col-md-6"
+                  onclick="shuffle()"
+                >
+                  Ανακάτεψε
+                </button>
               </div>
               <div class="col-md-6">
                 <button
-                type="button"
-                class="w-100 btn btn-lg btn-dark col-md-6"
-                onclick="clearShuffle()"
-              >
-                Διαγραφή
-              </button>
+                  type="button"
+                  class="w-100 btn btn-lg btn-dark col-md-6"
+                  onclick="clearShuffle()"
+                >
+                  Διαγραφή
+                </button>
               </div>
             </div>
-
-
-
           </form>
         </div>
       </div>
@@ -200,7 +241,7 @@
         </div>
       </div>
       <div class="row">
-        <p id="codeby" class="text-body-secondary"></p>
+        <p id="codeby" class="codebyleo"></p>
       </div>
     </div>
   </body>
