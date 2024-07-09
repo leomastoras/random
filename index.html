@@ -80,6 +80,7 @@
         );
 
         print(JSON.parse(window.localStorage.list));
+
       });
 
       function clearShuffle() {
@@ -100,13 +101,14 @@
           //const tickets = [...Array(-~+$("#ncount").val()).keys()]
           //  .slice(+true)
           let valids = parsePart($("#ncount").val());
+          const maxlen = (valids, (valids.at(-1)+'').length);
           const tickets = valids
             .shuffle()
             //.map((ticket) => ticket.pad($("#ncount").val().length));
-            .map((ticket) => ticket.pad((valids.at(-1) + '').length));
+            .map((ticket) => ticket.pad(maxlen));
           const items = list.map(
             (item, index) => (
-              (item.id = -~index), (item.ticket = tickets.at(index)), item
+              (item.id = -~index), (item.ticket = tickets.at(index)), (item.shown = 'false'), item
             )
           );
 
@@ -121,12 +123,12 @@
       }
 
       function print(items) {
-        for (const { id, gift, donor, ticket } of items) {
+        for (const { id, gift, donor, ticket, shown } of items) {
           const row = `<tr class="delrows">
                        <td>${id}</td>
                        <td>${gift}</td>
                        <td>${donor}</td>
-                       <td><button type="button" class="btn btn-secondary" onclick="$(this).text('${ticket}');$(this).removeClass('btn-secondary');$(this).addClass('btn-success')">- - - -</button></td>                       
+                       <td><button id="btnid-${id}" type="button" class="btn btn-secondary" onclick="$(this).text('${ticket}').removeClass('btn-secondary').addClass('btn-success');">- - - -</button></td>                       
                      </tr>`;
 
           $("table").find("tbody").append(row);
