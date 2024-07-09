@@ -85,6 +85,7 @@
 
       function clearShuffle() {
         if (prompt("Γράψε DELETE για να διαγράψεις την λίστα") == "DELETE") {
+          localStorage.clear();
           print((window.localStorage.list = []));
           //$("table").find("tbody").empty();
           $(".delrows").remove();
@@ -96,6 +97,7 @@
           !$(".delrows").length ||
           prompt("Γράψε RANDOM για να ανακατέψεις τους λαχνούς") == "RANDOM"
         ) {
+          localStorage.clear();
           $(".delrows").remove();
 
           //const tickets = [...Array(-~+$("#ncount").val()).keys()]
