@@ -109,7 +109,7 @@
             .map((ticket) => ticket.pad(maxlen));
           const items = list.map(
             (item, index) => (
-              (item.id = -~index), (item.ticket = tickets.at(index)), (item.shown = 'false'), item
+              (item.id = -~index), (item.ticket = tickets.at(index)), item
             )
           );
 
@@ -124,15 +124,16 @@
       }
 
       function print(items) {
-        for (const { id, gift, donor, ticket, shown } of items) {
+        for (const { id, gift, donor, ticket } of items) {
           const row = `<tr class="delrows">
                        <td>${id}</td>
                        <td>${gift}</td>
                        <td>${donor}</td>
-                       <td><button id="btnid-${id}" type="button" class="btn btn-secondary" onclick="$(this).text('${ticket}').removeClass('btn-secondary').addClass('btn-success');">- - - -</button></td>                       
+                       <td><button id="btnid-${id}" type="button" class="btn btn-secondary" onclick="$(this).text('${ticket}').removeClass('btn-secondary').addClass('btn-success');window.localStorage.setItem('id${id}',true);">- - - -</button></td>                       
                      </tr>`;
 
           $("table").find("tbody").append(row);
+          if(window.localStorage['id'+id]) $('#btnid-'+id).click();
         }
         window.localStorage.setItem("list", JSON.stringify(items));
       }
