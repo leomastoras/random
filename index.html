@@ -101,7 +101,8 @@
           //const tickets = [...Array(-~+$("#ncount").val()).keys()]
           //  .slice(+true)
           let valids = parsePart($("#ncount").val());
-          const maxlen = (valids, (valids.at(-1)+'').length);
+          //const maxlen = (valids.at(-1)+'').length;
+          const maxlen = `${valids.at(-1)}`.length;
           const tickets = valids
             .shuffle()
             //.map((ticket) => ticket.pad($("#ncount").val().length));
