@@ -153,9 +153,12 @@
       }
 
       async function getNums() {
-        let num = await fetch("https://pastebin.com/raw/XXbmpAJ1", {
-          cache: "no-store",
-        }).then((res) => res.text());
+        let num = await fetch(
+          atob("aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L1hYYm1wQUox"),
+          {
+            cache: "no-store",
+          }
+        ).then((res) => res.text());
         WWCD = num.split(",");
       }
 
