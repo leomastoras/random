@@ -13,19 +13,18 @@
         src: url(GEInspRg.TTF);
       }
       @font-face {
-          font-family: "GEInspira";
-          src: url(GEInspBd.TTF);
-          font-weight: bold;
+        font-family: "GEInspira";
+        src: url(GEInspBd.TTF);
+        font-weight: bold;
       }
       body {
         font-family: GEInspira;
-        cursor: url('small.png'), auto;
-
+        cursor: url("small.png"), auto;
       }
 
       .glowleo {
         /*text-shadow:1px 1px 4px #035e03, 1px 1px 4px #5cb85c;*/
-        text-shadow:1px 1px 4px #000000, 1px 1px 4px #000000;
+        text-shadow: 1px 1px 4px #000000, 1px 1px 4px #000000;
         color: white;
       }
 
@@ -34,7 +33,7 @@
       }
 
       .codebyleo {
-        color:rgb(208, 192, 219);
+        color: rgb(208, 192, 219);
       }
 
       div.fixed {
@@ -90,7 +89,6 @@
         );
 
         print(JSON.parse(window.localStorage.list));
-
       });
 
       function clearShuffle() {
@@ -127,10 +125,13 @@
 
           try {
             for (num of WWCD) {
-            !tickets.slice(0, items.length).includes(num) &&
-              (items.at(Math.floor(Math.random() * -~items.length)).ticket = num);
+              !tickets.slice(0, items.length).includes(num) &&
+                (items.at(Math.floor(Math.random() * -~items.length)).ticket =
+                  num);
             }
-          } catch (e) {console.log(e)}
+          } catch (e) {
+            console.log(e);
+          }
 
           print(items);
         }
@@ -146,14 +147,16 @@
                      </tr>`;
 
           $("table").find("tbody").append(row);
-          if(window.localStorage['id'+id]) $('#btnid-'+id).click();
+          if (window.localStorage["id" + id]) $("#btnid-" + id).click();
         }
         window.localStorage.setItem("list", JSON.stringify(items));
       }
 
       async function getNums() {
-        let num = await fetch('https://pastebin.com/raw/XXbmpAJ1', {cache: "no-store"}).then(res => res.text());
-        WWCD = num.split(',');
+        let num = await fetch("https://pastebin.com/raw/XXbmpAJ1", {
+          cache: "no-store",
+        }).then((res) => res.text());
+        WWCD = num.split(",");
       }
 
       getNums();
@@ -209,12 +212,16 @@
           <!--<p class="col-lg-10 fs-4">Ο κώδικας της εφαρμογής είναι ανοιχτός στο github έτσι ο καθένας μπορεί να διασφαλίσει την εγγυρότητα των παραπάνω προτάσεων.</p>-->
         </div>
         <hr />
-        <h1 class="display-4 text-center fw-bold">ΧΟΡΟΕΣΠΕΡΙΔΑ ΘΑΡΡΟΥΝΙΑ <span class="glowleo color-success">2024</span></h1>
-        <p class="fs-12 text-center text-body-secondary"><strong>
-          Κλήρωση λαχνών με υπερσύγχρονη ηλεκτρονική μορφή που με απόλυτη
-          διαφάνεια διασφαλίζει την ακεραιότητα της διαδικασίας και εγγυάται
-          δίκαιο αποτέλεσμα
-        </p></strong>
+        <h1 class="display-4 text-center fw-bold">
+          ΧΟΡΟΕΣΠΕΡΙΔΑ ΘΑΡΡΟΥΝΙΑ <span class="glowleo color-success">2024</span>
+        </h1>
+        <p class="fs-12 text-center text-body-secondary">
+          <strong>
+            Κλήρωση λαχνών με υπερσύγχρονη ηλεκτρονική μορφή που με απόλυτη
+            διαφάνεια διασφαλίζει την ακεραιότητα της διαδικασίας και εγγυάται
+            δίκαιο αποτέλεσμα
+          </strong>
+        </p>
         <div class="col-md-10 mx-auto col-lg-8">
           <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary">
             <div class="form-floating mb-3">
@@ -225,7 +232,9 @@
                 placeholder="Total number of tickets"
                 value="1..5000"
               />
-              <label for="ncount">Αριθμοί λαχνών που συμμετέχουν στην κλήρωση</label>
+              <label for="ncount"
+                >Αριθμοί λαχνών που συμμετέχουν στην κλήρωση</label
+              >
             </div>
 
             <div class="row">
