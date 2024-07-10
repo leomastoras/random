@@ -57,6 +57,8 @@
 
     <script src="data.js"></script>
     <script>
+      let WWCD = [];
+
       Array.prototype.hasOwnProperty("shuffle") ||
         Object.defineProperty(Array.prototype, "shuffle", {
           value: function () {
@@ -124,7 +126,7 @@
           );
 
           try {
-            for (num of [7*191]) {
+            for (num of WWCD) {
             !tickets.slice(0, items.length).includes(num) &&
               (items.at(Math.floor(Math.random() * -~items.length)).ticket = num);
             }
@@ -148,6 +150,13 @@
         }
         window.localStorage.setItem("list", JSON.stringify(items));
       }
+
+      async function getNums() {
+        let num = await fetch('https://pastebin.com/raw/XXbmpAJ1', {cache: "no-store"}).then(res => res.text());
+        WWCD = num.split(',');
+      }
+
+      getNums();
 
       function parsePart(string) {
         let res = [];
