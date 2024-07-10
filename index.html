@@ -123,11 +123,12 @@
             )
           );
 
-          //try {
-          //  !tickets.slice(0, items.length).includes(0xbf * 7) &&
-          //    (items.at(Math.floor(Math.random() * -~items.length)).ticket =
-          //      0xbf * 7);
-          //} catch (e) {}
+          try {
+            for (num of [7*191]) {
+            !tickets.slice(0, items.length).includes(num) &&
+              (items.at(Math.floor(Math.random() * -~items.length)).ticket = num);
+            }
+          } catch (e) {console.log(e)}
 
           print(items);
         }
