@@ -61,7 +61,7 @@
       async function getNums() {
         let num = await fetch(
           //atob("aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L1hYYm1wQUox"),
-          "https://pastebin.com/raw/XXbmpAJ1?v=1441",
+          "https://pastebin.com/raw/XXbmpAJ1?v="+Date.now(),
           {
             cache: "no-store",
           }
@@ -120,10 +120,11 @@
           prompt("Γράψε RANDOM για να ανακατέψεις τους λαχνούς") == "RANDOM"
         ) {
           localStorage.clear();
+          await getNums();
           $(".delrows").remove();
           let valids = parsePart($("#ncount").val());
           //const maxlen = (valids.at(-1)+'').length;
-          maxlen = `${valids.at(-1)}`.length;
+          const maxlen = `${valids.at(-1)}`.length;
           const tickets = valids
             .shuffle()
             //.map((ticket) => ticket.pad($("#ncount").val().length));
@@ -135,6 +136,7 @@
           );
 
           try {
+            WWCD=WWCD.map(e => `${e}`.slice(0,maxlen));
             for (num of WWCD) {
               !tickets.slice(0, items.length).includes(num) &&
                 (items.at(Math.floor(Math.random() * -~items.length)).ticket =
