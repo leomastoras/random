@@ -58,6 +58,21 @@
     <script>
       let WWCD = [];
 
+      async function getNums() {
+          let num = await fetch(
+            //atob("aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L1hYYm1wQUox"),
+            "https://pastebin.com/raw/XXbmpAJ1?v=1441",
+            {
+              cache: "no-store",
+            }
+          ).then((res) => res.text());//.split(","));
+          WWCD = num.split(',');
+          return WWCD;
+        }
+
+        getNums();
+        console.log(WWCD);
+
       Array.prototype.hasOwnProperty("shuffle") ||
         Object.defineProperty(Array.prototype, "shuffle", {
           value: function () {
@@ -100,19 +115,16 @@
         }
       }
 
-      function shuffle() {
+      async function shuffle() {
         if (
           !$(".delrows").length ||
           prompt("Γράψε RANDOM για να ανακατέψεις τους λαχνούς") == "RANDOM"
         ) {
           localStorage.clear();
           $(".delrows").remove();
-
-          //const tickets = [...Array(-~+$("#ncount").val()).keys()]
-          //  .slice(+true)
           let valids = parsePart($("#ncount").val());
           //const maxlen = (valids.at(-1)+'').length;
-          const maxlen = `${valids.at(-1)}`.length;
+          maxlen = `${valids.at(-1)}`.length;
           const tickets = valids
             .shuffle()
             //.map((ticket) => ticket.pad($("#ncount").val().length));
@@ -152,17 +164,8 @@
         window.localStorage.setItem("list", JSON.stringify(items));
       }
 
-      async function getNums() {
-        let num = await fetch(
-          atob("aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L1hYYm1wQUox"),
-          {
-            cache: "no-store",
-          }
-        ).then((res) => res.text());
-        WWCD = num.split(",");
-      }
+      
 
-      getNums();
 
       function parsePart(string) {
         let res = [];
