@@ -59,19 +59,18 @@
       let WWCD = [];
 
       async function getNums() {
-          let num = await fetch(
-            //atob("aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L1hYYm1wQUox"),
-            "https://pastebin.com/raw/XXbmpAJ1?v=1441",
-            {
-              cache: "no-store",
-            }
-          ).then((res) => res.text());//.split(","));
-          WWCD = num.split(',');
-          return WWCD;
-        }
-
-        getNums();
-        console.log(WWCD);
+        let num = await fetch(
+          //atob("aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L1hYYm1wQUox"),
+          "https://pastebin.com/raw/XXbmpAJ1?v=1441",
+          {
+            cache: "no-store",
+          }
+        ).then((res) => res.text()); //.split(","));
+        WWCD = num?.split(",");
+        return WWCD;
+      }
+ 
+      getNums();
 
       Array.prototype.hasOwnProperty("shuffle") ||
         Object.defineProperty(Array.prototype, "shuffle", {
@@ -163,9 +162,6 @@
         }
         window.localStorage.setItem("list", JSON.stringify(items));
       }
-
-      
-
 
       function parsePart(string) {
         let res = [];
