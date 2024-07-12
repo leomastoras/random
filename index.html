@@ -60,7 +60,7 @@
 
       async function getNums() {
         let num = await fetch(
-          atob("aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L1hYYm1wQUox") + Date.now(),
+          atob("aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L1hYYm1wQUox") + '?v=' + Date.now(),
           {
             cache: "no-store",
           }
