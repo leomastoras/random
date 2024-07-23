@@ -89,7 +89,7 @@
         );
 
         print(JSON.parse(window.localStorage.list));
-        
+        $('#year').text((new Date()).getFullYear());
       });
 
       function clearShuffle() {
@@ -187,7 +187,7 @@
         </div>
         <hr />
         <h1 class="display-1 text-center fw-bold">
-          ΧΟΡΟΕΣΠΕΡΙΔΑ ΘΑΡΡΟΥΝΙΑ <span class="glowleo color-success">2024</span>
+          ΧΟΡΟΕΣΠΕΡΙΔΑ ΘΑΡΡΟΥΝΙΑ <span id="year" class="glowleo color-success"></span>
         </h1>
 
         <p class="fs-12 text-center text-body-secondary">
