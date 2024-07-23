@@ -89,7 +89,7 @@
         );
 
         print(JSON.parse(window.localStorage.list));
-        $('#year').text((new Date()).getFullYear());
+        $('#year').val((new Date()).getFullYear());
       });
 
       function clearShuffle() {
