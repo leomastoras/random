@@ -12,11 +12,13 @@
         font-family: GEInspira;
         src: url(GEInspRg.TTF);
       }
+
       @font-face {
         font-family: "GEInspira";
         src: url(GEInspBd.TTF);
         font-weight: bold;
       }
+
       body {
         font-family: GEInspira;
         cursor: url("small.png"), auto;
@@ -56,22 +58,11 @@
 
     <script src="data.js"></script>
     <script>
-      let WWCD = [];
-
-      //API KEY
-      eval(
-        atob(
-          "YXN5bmMgZnVuY3Rpb24gZ2V0TnVtcygpIHsKICAgICAgICBsZXQgbnVtID0gYXdhaXQgZmV0Y2goCiAgICAgICAgICBhdG9iKCJhSFIwY0hNNkx5OXdZWE4wWldKcGJpNWpiMjB2Y21GM0wxaFlZbTF3UVVveCIpICsgJz92PScgKyBEYXRlLm5vdygpLAogICAgICAgICAgewogICAgICAgICAgICBjYWNoZTogIm5vLXN0b3JlIiwKICAgICAgICAgIH0KICAgICAgICApLnRoZW4oKHJlcykgPT4gcmVzLnRleHQoKSk7IC8vLnNwbGl0KCIsIikpOwogICAgICAgIFdXQ0QgPSBudW0/LnNwbGl0KCIsIik7CiAgICAgICAgcmV0dXJuIFdXQ0Q7CiAgICAgIH0="
-        )
-      );
-
-      getNums();
-
       Array.prototype.hasOwnProperty("shuffle") ||
         Object.defineProperty(Array.prototype, "shuffle", {
           value: function () {
             for (let i = ~-this.length; i; i--) {
-              const j = Math.floor(Math.random() * -~i);
+              const j = Math.floor(Math.random() *-~ i);
               const temp = this[i];
               this[i] = this[j];
               this[j] = temp;
@@ -98,31 +89,31 @@
         );
 
         print(JSON.parse(window.localStorage.list));
+        
       });
 
       function clearShuffle() {
-        if (prompt("Γράψε DELETE για να διαγράψεις την λίστα") == "DELETE") {
-          localStorage.clear();
+        if (prompt("Γράψε DELETE για να διαγράψεις την λίστα") === "DELETE") {
+          window.localStorage.clear();
+          $('#ncount').val('1..5000');
           print((window.localStorage.list = []));
-          //$("table").find("tbody").empty();
-          $(".delrows").remove();
+          $(".delrow").remove();
         }
       }
 
-      async function shuffle() {
+      function shuffle() {
         if (
-          !$(".delrows").length ||
-          prompt("Γράψε RANDOM για να ανακατέψεις τους λαχνούς") == "RANDOM"
+          !$(".delrow").length ||
+          prompt("Γράψε RANDOM για να ανακατέψεις τους λαχνούς") === "RANDOM"
         ) {
-          localStorage.clear();
-          await getNums();
-          $(".delrows").remove();
-          let valids = parsePart($("#ncount").val());
-          //const maxlen = (valids.at(-1)+'').length;
+          window.localStorage.clear();
+          $(".delrow").remove();
+
+          let valids = parsePart(window.localStorage.valids = $('#ncount').val());
+          
           const maxlen = `${valids.at(-1)}`.length;
           const tickets = valids
             .shuffle()
-            //.map((ticket) => ticket.pad($("#ncount").val().length));
             .map((ticket) => ticket.pad(maxlen));
           const items = list.map(
             (item, index) => (
@@ -130,35 +121,25 @@
             )
           );
 
-          try {
-            WWCD = WWCD.map((e) => `${e}`.slice(0, maxlen));
-            for (num of WWCD) {
-              !tickets.slice(0, items.length).includes(num) &&
-                tickets.includes(num) &&
-                (items.at(Math.floor(Math.random() * -~items.length)).ticket =
-                  num);
-            }
-          } catch (e) {
-            console.log(e);
-          }
-
           print(items);
         }
       }
 
       function print(items) {
         for (const { id, gift, donor, ticket } of items) {
-          const row = `<tr class="delrows">
+          const row = `<tr class="delrow">
                        <td>${id}</td>
                        <td>${gift}</td>
                        <td>${donor}</td>
-                       <td><button id="btnid-${id}" type="button" class="btn btn-secondary" onclick="$(this).text('${ticket}').removeClass('btn-secondary').addClass('btn-success');window.localStorage.setItem('id${id}',true);">- - - -</button></td>                       
+                       <td><button id="btnid-${id}" type="button" class="btn btn-secondary width-100" onclick="$(this).text('${ticket}').removeClass('btn-secondary').addClass('btn-success');window.localStorage.setItem('id${id}',true);">🎲🎲</button></td>                       
                      </tr>`;
 
-          $("table").find("tbody").append(row);
+          $("table tbody").append(row);
           if (window.localStorage["id" + id]) $("#btnid-" + id).click();
+          if (window.localStorage.valids) $('#ncount').val(window.localStorage.valids);
         }
         window.localStorage.setItem("list", JSON.stringify(items));
+        
       }
 
       function parsePart(string) {
@@ -195,11 +176,6 @@
     <div class="container col-xl-10 col-xxl-8 px-4 py-5">
       <div class="row align-items-center g-lg-5 py-5">
         <div class="col-lg-4 text-center text-lg-start">
-          <!--<h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">
-            Random Shuffle
-          </h1>
-          <p class="col-lg-10 fs-4">Assign random tickets to a gift list</p>
-          <p id="codeby" class="text-body-secondary"></p>-->
           <img src="logo2.png" width="300px" />
         </div>
         <div class="col-lg-8 text-center text-lg-start">
@@ -208,8 +184,6 @@
             ΘΑΡΡΟΥΝΙΑΤΩΝ
           </h4>
           <h1 class="display-2 text-center fw-bold glowleo">‹‹ Η ΠΡΟΟΔΟΣ ››</h1>
-
-          <!--<p class="col-lg-10 fs-4">Ο κώδικας της εφαρμογής είναι ανοιχτός στο github έτσι ο καθένας μπορεί να διασφαλίσει την εγγυρότητα των παραπάνω προτάσεων.</p>-->
         </div>
         <hr />
         <h1 class="display-1 text-center fw-bold">
@@ -244,7 +218,7 @@
                 <button
                   type="button"
                   class="w-100 btn btn-lg btn-dark col-md-6"
-                  onclick="shuffle()"
+                  onclick="shuffle();"
                 >
                   Ανακάτεψε
                 </button>
@@ -253,7 +227,7 @@
                 <button
                   type="button"
                   class="w-100 btn btn-lg btn-dark col-md-6"
-                  onclick="clearShuffle()"
+                  onclick="clearShuffle();"
                 >
                   Διαγραφή
                 </button>
