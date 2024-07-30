@@ -131,11 +131,11 @@
                          <td>${id}</td>
                          <td>${gift}</td>
                          <td>${donor}</td>
-                         <td><button id="btnid-${id}" type="button" class="btn btn-secondary width-100" onclick="$(this).text('${ticket}').removeClass('btn-secondary').addClass('btn-success');localStorage.setItem('id${id}',true);">🎲🎲</button></td>                       
+                         <td><button id="btn-id${id}" type="button" class="btn btn-secondary width-100" onclick="$(this).html('<strong>${ticket}</strong>').removeClass('btn-secondary').addClass('btn-success');localStorage.setItem('id${id}',true);">🎲🎲</button></td>                       
                        </tr>`;
 
           $("table tbody").append(row);
-          localStorage["id" + id] && $("#btnid-" + id).click();
+          localStorage[`id${id}`] && $(`#btn-id${id}`).click();
         }
         localStorage.setItem("list", JSON.stringify(items));
       }
@@ -219,7 +219,7 @@
                   class="w-100 btn btn-lg btn-dark col-md-6"
                   onclick="shuffle();"
                 >
-                  Ανακάτεψε
+                  <strong>🔀 Ανακάτεψε</strong>
                 </button>
               </div>
               <div class="col-md-6">
@@ -228,7 +228,7 @@
                   class="w-100 btn btn-lg btn-dark col-md-6"
                   onclick="clearShuffle();"
                 >
-                  Διαγραφή
+                <strong>❌ Διαγραφή</strong>
                 </button>
               </div>
             </div>
