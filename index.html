@@ -41,28 +41,6 @@
 
     <script src="data.js"></script>
     <script>
-      Date.days = [
-        "Κυριακή",
-        "Δευτέρα",
-        "Τρίτη",
-        "Τετάρτη",
-        "Πέμπτη",
-        "Παρασκευή",
-        "Σάββατο",
-      ];
-      Date.months = [
-        "Ιανουαρίου",
-        "Φεβρουαρίου",
-        "Μαρτίου",
-        "Απριλίου",
-        "Μαϊου",
-        "Ιουνίου",
-        "Ιουλίου",
-        "Αυγούστου",
-        "Σεπτεμβρίου",
-        "Οκτωβρίου",
-        "Νοεμβρίου",
-      ];
 
       Math.cryptoRandom = function () {
         const randomBuffer = new Uint32Array(+true);
@@ -102,14 +80,11 @@
           date.setDate(i);
           if (date.getDay() == 6) {
             $("#year").text(
-              `${Date.days[date.getDay()]}, ${date.getDate()} ${
-                Date.months[date.getMonth()]
-              } ${date.getFullYear()}`
+              `Σάββατο, ${date.getDate()} Ιουλίου ${date.getFullYear()}`
             );
           }
         }
 
-        //$("#year").text(new Date().getFullYear());
         $("#sign").text(
           `code by ${"⁈‼⁮⁯⁠⁭⁇⁠⁪".replace(/./g, (g) =>
             String.fromCharCode(
