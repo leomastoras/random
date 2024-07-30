@@ -58,17 +58,19 @@
 
     <script src="data.js"></script>
     <script>
-      Math.cryptoRandom = function() {
+      Math.cryptoRandom = function () {
         const randomBuffer = new Uint32Array(+true);
         (crypto || msCrypto).getRandomValues(randomBuffer);
         return randomBuffer.at() / 2 ** 32;
-      }
+      };
 
       Array.prototype.hasOwnProperty("shuffle") ||
         Object.defineProperty(Array.prototype, "shuffle", {
           value: function () {
             for (let currentIndex = this.length; currentIndex; ) {
-              const randomIndex = Math.floor(Math.cryptoRandom() * currentIndex--);
+              const randomIndex = Math.floor(
+                Math.cryptoRandom() * currentIndex--
+              );
 
               [this[currentIndex], this[randomIndex]] = [
                 this[randomIndex],
@@ -205,9 +207,12 @@
 
         <p class="fs-12 text-center text-body-secondary">
           <strong>
-            Κλήρωση λαχνών με υπερσύγχρονη ηλεκτρονική μορφή που με απόλυτη
-            διαφάνεια διασφαλίζει την ακεραιότητα της διαδικασίας και εγγυάται
-            δίκαιο αποτέλεσμα
+            Η κλήρωση λαχνών διεξάγεται με μια υπερσύγχρονη ηλεκτρονική μορφή, η
+            οποία όχι μόνο εξασφαλίζει απόλυτη διαφάνεια, αλλά και διασφαλίζει
+            την ακεραιότητα της διαδικασίας σε κάθε στάδιο. Αυτή η μέθοδος
+            εγγυάται ένα δίκαιο και αμερόληπτο αποτέλεσμα, διασφαλίζοντας ότι
+            κάθε συμμετέχων έχει ίσες πιθανότητες και ότι το τελικό αποτέλεσμα
+            είναι αδιάβλητο και αξιόπιστο.
           </strong>
         </p>
         <hr />
@@ -228,22 +233,26 @@
 
             <div class="row">
               <div class="col-md-6">
-                <button
-                  type="button"
-                  class="btn btn-lg btn-dark col-md-6"
-                  onclick="shuffle();"
-                >
-                  <strong>🔀 Ανακάτεψε</strong>
-                </button>
+                <div class="d-grid gap-2 col-12">
+                  <button
+                    type="button"
+                    class="btn btn-lg btn-dark"
+                    onclick="shuffle();"
+                  >
+                    <strong>🔀 Ανακάτεψε</strong>
+                  </button>
+                </div>
               </div>
               <div class="col-md-6">
-                <button
-                  type="button"
-                  class="btn btn-lg btn-dark col-md-6"
-                  onclick="remove();"
-                >
-                  <strong>❌ Διαγραφή</strong>
-                </button>
+                <div class="d-grid gap-2 col-12">
+                  <button
+                    type="button"
+                    class="btn btn-lg btn-dark"
+                    onclick="remove();"
+                  >
+                    <strong>❌ Διαγραφή</strong>
+                  </button>
+                </div>
               </div>
             </div>
           </form>
