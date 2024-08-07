@@ -57,4 +57,4 @@ Math.parse = function(string) {
   return res;
 }
 
-
+window.storage = window.localStorage;
