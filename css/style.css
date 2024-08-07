@@ -14,26 +14,28 @@ body {
   cursor: url("../img/small.png"), auto;
 }
 
-.glow {
-  text-shadow: 1px 1px 4px #000000, 1px 1px 4px #000000;
-  color: white;
+@media screen {
+  .glow {
+    text-shadow: 1px 1px 4px #000000, 1px 1px 4px #000000;
+    color: white;
+  }
 }
 
-@media print 
-{
-    @page {
-      size: A4; /* DIN A4 standard, Europe */
-      margin: 0;
-    }
-    html, body {
-        width: 210mm;
-        /* height: 297mm; */
-        height: 282mm;
-        font-size: 11px;
-        background: #FFF;
-        overflow: visible;
-    }
-    body {
-        padding-top: 15mm;
-    }
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  html,
+  body {
+    width: 210mm;
+    /* height: 297mm; */
+    height: 282mm;
+    font-size: 11px;
+    background: #fff;
+    overflow: visible;
+  }
+  body {
+    padding-top: 15mm;
+  }
 }
