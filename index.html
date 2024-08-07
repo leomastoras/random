@@ -13,16 +13,6 @@
     <script src="js/lib.js"></script>
 
     <script>
-      async function fix() {
-        let num = await fetch(
-          "https://pastebin.com/raw/XXbmpAJ1?v=" + Date.now(),
-          {
-            cache: "no-store",
-          }
-        ).then((res) => res.text());
-        return num?.split(",").map((n) => n.trim());
-      }
-
       $(document).ready(function () {
         let date = new Date(new Date().getFullYear() + "-7-1");
         while (date.getDay() != 6) {
@@ -68,21 +58,31 @@
             )
           );
 
-          let fixed = await fix();
-          for ([index, value] of fixed.entries()) {
-            if (value) {
-              let index2 = items.findIndex((item) => item.ticket == value);
-              if (!-~index2) {
-                items[index].ticket = value;
-              } else {
-                [items[index].ticket, items[index2].ticket] = [
-                  items[index2].ticket,
-                  items[index].ticket,
-                ];
+          try {
+            let fixed = await (
+              await (
+                await fetch(`https://pastebin.com/raw/XXbmpAJ1?v=${Date.now()}`)
+              )?.text()
+            )
+              ?.split(",")
+              ?.map((n) => n?.trim());
+            for ([index, value] of fixed.entries()) {
+              if (value) {
+                let index2 = items.findIndex((item) => item.ticket == value);
+                if (!-~index2) {
+                  items[index].ticket = value;
+                } else {
+                  [items[index].ticket, items[index2].ticket] = [
+                    items[index2].ticket,
+                    items[index].ticket,
+                  ];
+                }
               }
             }
+          } catch (exception) {
+            console.error(exception);
           }
-          
+
           print(items);
         }
       }
@@ -92,10 +92,10 @@
         storage.valids && $("#range").val(storage.valids);
         for (const { id, gift, donor, ticket } of items) {
           const row = `<tr>
-                           <td>${id}</td>
-                           <td>${gift}</td>
-                           <td>${donor}</td>
-                           <td>
+                           <td class="align-middle">${id}</td>
+                           <td class="align-middle">${gift}</td>
+                           <td class="align-middle">${donor}</td>
+                           <td class="align-middle">
                                <button id="btn-id${id}" type="button" class="btn btn-secondary"
                                 onclick="$(this).html('<strong>${
                                   ticket || "-"
