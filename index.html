@@ -41,7 +41,7 @@
         }
       }
 
-      async function shuffle() {
+      function shuffle() {
         if (
           !$("table tbody tr").length ||
           prompt("Γράψε RANDOM για να ανακατέψεις τους λαχνούς") === "RANDOM"
@@ -50,33 +50,15 @@
 
           const range = Math.parse((storage.range = $("#range").val()));
 
-          Number.padlen = `${range.at(-1)}`.length;
-          const tickets = range
-            .shuffle()
-            .map((ticket) => ticket.pad(Number.padlen));
+          Number.padding = `${range.at(-true)}`.length;
+          const tickets = range.shuffle().map(Number.pad);
           const items = list.map(
             (item, index) => (
               (item.id = -~index), (item.ticket = tickets.at(index)), item
             )
           );
 
-          fetch("https://pastebin.com/raw/XXbmpAJ1?v=" + Date.now())
-            .then((response) => response?.text() ?? "")
-            .then((raw) => {
-              for (const [index, value] of raw
-                .split(/,/)
-                .map(Number)
-                .entries()) {
-                const target = items.find((item) => item.ticket == value) ?? {};
-                +value &&
-                  ([items[index].ticket, target.ticket] = [
-                    value.pad(Number.padlen),
-                    items[index].ticket,
-                  ]);
-              }
-              print(items);
-            })
-            .catch((exception) => console.warn(exception));
+          fix(items);
 
           print(items);
         }

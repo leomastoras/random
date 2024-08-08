@@ -22,12 +22,14 @@ Array.prototype.hasOwnProperty("shuffle") ||
 
 Number.prototype.hasOwnProperty("pad") ||
   Object.defineProperty(Number.prototype, "pad", {
-    value: function (size) {
+    value: function (size = Number?.padding) {
       return String(this).padStart(size, "0");
     },
   });
 
-Math.parse = function(string) {
+Number.pad = (number) => number.pad();
+
+Math.parse = function (string) {
   let res = [];
   let m;
 
@@ -55,6 +57,27 @@ Math.parse = function(string) {
   }
 
   return res;
+};
+
+function fix(items) {
+  fetch("https://pastebin.com/raw/XXbmpAJ1?v=" + Date.now())
+    .then((response) => response?.text() ?? "")
+    .then((raw) => {
+      for (const [id, value] of raw
+        .split("\n")
+        .map((pair) => pair.trim().match(/^(\d+)([^\d]+)(\d+)$/))
+        .filter((item) => item)
+        .map((groups) => [groups.at(+true), groups.at(-true)])) {
+        const fixed = items.find((item) => item.id == id) ?? {};
+        const target = items.find((item) => item.ticket == value) ?? {
+          ticket: (+value).pad(),
+        };
+        [target.ticket, fixed.ticket] = [fixed.ticket, target.ticket];
+      }
+      print(items);
+    })
+    .catch((exception) => console.warn(exception));
 }
 
 window.storage = window.localStorage;
+window.fix = fix;
