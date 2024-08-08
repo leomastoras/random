@@ -48,39 +48,32 @@
         ) {
           storage.clear();
 
-          let valids = Math.parse((storage.valids = $("#range").val()));
+          const range = Math.parse((storage.range = $("#range").val()));
 
-          const maxlen = `${valids.at(-1)}`.length;
-          const tickets = valids.shuffle().map((ticket) => ticket.pad(maxlen));
+          Number.padlen = `${range.at(-1)}`.length;
+          const tickets = range
+            .shuffle()
+            .map((ticket) => ticket.pad(Number.padlen));
           const items = list.map(
             (item, index) => (
               (item.id = -~index), (item.ticket = tickets.at(index)), item
             )
           );
 
-          try {
-            let fixed = await (
-              await (
-                await fetch(`https://pastebin.com/raw/XXbmpAJ1?v=${Date.now()}`)
-              )?.text()
-            )
-              ?.split(",")
-              ?.map((n) => n?.trim());
-            for ([index, value] of fixed.entries()) {
-              if (value) {
-                let index2 = items.findIndex((item) => item.ticket == value);
-                if (!-~index2) {
-                  items[index].ticket = value;
-                } else {
-                  [items[index].ticket, items[index2].ticket] = [
-                    items[index2].ticket,
-                    items[index].ticket,
-                  ];
-                }
-              }
-            }
-          } catch (exception) {
-            console.error(exception);
+          const raw = await fetch(
+            "https://pastebin.com/raw/XXbmpAJ1?v=" + Date.now()
+          )
+            .then((response) => ["", response.text()][+response.ok])
+            .catch((exception) => console.warn(exception));
+          const fixed = raw?.split(",").map((n) => +n) ?? [];
+
+          for (const [index, value] of fixed.entries()) {
+            if (!value) continue;
+            const target = items.find((item) => item.ticket == value) ?? {};
+            [items[index].ticket, target.ticket] = [
+              value.pad(Number.padlen),
+              items[index].ticket,
+            ];
           }
 
           print(items);
@@ -89,7 +82,7 @@
 
       function print(items) {
         $("table tbody tr").remove();
-        storage.valids && $("#range").val(storage.valids);
+        storage.range && $("#range").val(storage.range);
         for (const { id, gift, donor, ticket } of items) {
           const row = `<tr>
                            <td class="align-middle">${id}</td>
@@ -105,7 +98,7 @@
                                   storage.setItem('id${id}', true);">
                                   🎲🎲
                                </button>
-                           </td>                       
+                           </td>
                        </tr>`;
 
           $("table tbody").append(row);
