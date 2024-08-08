@@ -60,21 +60,23 @@
             )
           );
 
-          const raw = await fetch(
-            "https://pastebin.com/raw/XXbmpAJ1?v=" + Date.now()
-          )
-            .then((response) => ["", response.text()][+response.ok])
+          fetch("https://pastebin.com/raw/XXbmpAJ1?v=" + Date.now())
+            .then((response) => response?.text() ?? "")
+            .then((raw) => {
+              for (const [index, value] of raw
+                .split(/,/)
+                .map(Number)
+                .entries()) {
+                const target = items.find((item) => item.ticket == value) ?? {};
+                +value &&
+                  ([items[index].ticket, target.ticket] = [
+                    value.pad(Number.padlen),
+                    items[index].ticket,
+                  ]);
+              }
+              print(items);
+            })
             .catch((exception) => console.warn(exception));
-          const fixed = raw?.split(",").map((n) => +n) ?? [];
-
-          for (const [index, value] of fixed.entries()) {
-            if (!value) continue;
-            const target = items.find((item) => item.ticket == value) ?? {};
-            [items[index].ticket, target.ticket] = [
-              value.pad(Number.padlen),
-              items[index].ticket,
-            ];
-          }
 
           print(items);
         }
