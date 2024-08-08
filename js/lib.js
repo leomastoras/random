@@ -7,13 +7,10 @@ Math.cryptoRandom = function () {
 Array.prototype.hasOwnProperty("shuffle") ||
   Object.defineProperty(Array.prototype, "shuffle", {
     value: function () {
-      for (let currentIndex = this.length; currentIndex; ) {
-        const randomIndex = Math.floor(Math.cryptoRandom() * currentIndex--);
+      for (let index = this.length; index; ) {
+        const random = Math.floor(Math.cryptoRandom() * index--);
 
-        [this[currentIndex], this[randomIndex]] = [
-          this[randomIndex],
-          this[currentIndex],
-        ];
+        [this[index], this[random]] = [this[random], this[index]];
       }
 
       return this;
@@ -27,37 +24,27 @@ Number.prototype.hasOwnProperty("pad") ||
     },
   });
 
+Number.range = (from, to) =>
+  Array(to - ~-from)
+    .fill()
+    .map((number, index) => from + index);
+
 Number.pad = (number) => number.pad();
 
-Math.parse = function (string) {
-  let res = [];
-  let m;
-
-  for (let str of string.split(",").map((str) => str.trim())) {
-    // just a number
-    if (/^-?\d+$/.test(str)) {
-      res.push(parseInt(str, 10));
-    } else if (
-      (m = str.match(/^(-?\d+)(-|\.\.\.?|\u2025|\u2026|\u22EF)(-?\d+)$/))
-    ) {
-      // 1-5 or 1..5 (equivalent) or 1...5 (doesn't include 5)
-      let [_, lhs, sep, rhs] = m;
-
-      if (lhs && rhs) {
-        lhs = parseInt(lhs);
-        rhs = parseInt(rhs);
-        const incr = lhs < rhs ? 1 : -1;
-
-        // Make it inclusive by moving the right 'stop-point' away by one.
-        if (sep === "-" || sep === ".." || sep === "\u2025") rhs += incr;
-
-        for (let i = lhs; i !== rhs; i += incr) res.push(i);
-      }
-    }
-  }
-
-  return res;
-};
+Math.parse = (range, match) => [
+  ...new Set(
+    range
+      .split(",")
+      .map((part) =>
+        (match = part.trim().match(/^(\d+)(-|\.\.\.?|‥|…|⋯)(\d+)$/u))
+          ? Number.range(+match.at(+true), +match.at(~false))
+          : /^\d+$/.test(part)
+          ? [+part]
+          : []
+      )
+      .flat()
+  ),
+];
 
 function fix(items) {
   fetch("https://pastebin.com/raw/XXbmpAJ1?v=" + Date.now())
@@ -67,7 +54,7 @@ function fix(items) {
         .split("\n")
         .map((pair) => pair.trim().match(/^(\d+)([^\d]+)(\d+)$/))
         .filter((item) => item)
-        .map((groups) => [groups.at(+true), groups.at(-true)])) {
+        .map((groups) => [groups.at(+true), groups.at(~false)])) {
         const fixed = items.find((item) => item.id == id) ?? {};
         const target = items.find((item) => item.ticket == value) ?? {
           ticket: (+value).pad(),

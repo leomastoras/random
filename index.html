@@ -47,18 +47,15 @@
           prompt("Γράψε RANDOM για να ανακατέψεις τους λαχνούς") === "RANDOM"
         ) {
           storage.clear();
-
           const range = Math.parse((storage.range = $("#range").val()));
-
-          Number.padding = `${range.at(-true)}`.length;
+          Number.padding = `${range.at(~false)}`.length;
           const tickets = range.shuffle().map(Number.pad);
           const items = list.map(
             (item, index) => (
               (item.id = -~index), (item.ticket = tickets.at(index)), item
             )
           );
-          fix(items);
-          print(items);
+          fix(items), print(items);
         }
       }
 
