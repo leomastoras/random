@@ -1,8 +1,15 @@
 Math.cryptoRandom = function () {
-  const randomBuffer = new Uint32Array(+true);
-  (crypto || msCrypto).getRandomValues(randomBuffer);
-  return randomBuffer.at() / 2 ** 32;
+  const buffer = new Uint32Array(+true);
+  (crypto || msCrypto).getRandomValues(buffer);
+  return buffer.at() / 2 ** 32;
 };
+
+Array.prototype.hasOwnProperty("random") ||
+  Object.defineProperty(Array.prototype, "random", {
+    value: function () {
+      return this[Math.floor(Math.cryptoRandom() * this.length)];
+    },
+  });
 
 Array.prototype.hasOwnProperty("shuffle") ||
   Object.defineProperty(Array.prototype, "shuffle", {
@@ -52,9 +59,13 @@ function fix(items) {
     .then((raw) => {
       for (const [id, value] of raw
         .split("\n")
-        .map((pair) => pair.trim().match(/^(\d+)([^\d]+)(\d+)$/))
-        .filter((item) => item)
-        .map((groups) => [groups.at(+true), groups.at(~false)])) {
+        .map((pair) =>
+          pair
+            .trim()
+            .split(" ")
+            .map((number) => Math.parse(number).random())
+        )
+        .filter((pair) => pair.at() && pair.at(+true))) {
         const fixed = items.find((item) => item.id == id) ?? {};
         const target = items.find((item) => item.ticket == value) ?? {
           ticket: (+value).pad(),
