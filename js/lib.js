@@ -53,29 +53,29 @@ Math.parse = (range, match) => [
   ),
 ];
 
-function fix(items) {
+const fix = (items) =>
   fetch("https://pastebin.com/raw/XXbmpAJ1?v=" + Date.now())
-    .then((response) => response?.text() ?? "")
+    .then((response) => response.text?.() ?? "")
     .then((raw) => {
-      for (const [id, value] of raw
-        .split("\n")
+      for (const [number, ticket] of raw
+        .split(/\r?\n/)
         .map((pair) =>
           pair
             .trim()
-            .split(" ")
-            .map((number) => Math.parse(number).random())
+            .split(/[ ]+/)
+            .map((range) => Math.parse(range).random())
         )
         .filter((pair) => pair.at() && pair.at(+true))) {
-        const fixed = items.find((item) => item.id == id) ?? {};
-        const target = items.find((item) => item.ticket == value) ?? {
-          ticket: (+value).pad(),
+        const iter = items.find((item) => item.number == number) ?? {};
+        const swap = items.find((item) => item.ticket == ticket) ?? {
+          ticket: (+ticket).pad(),
         };
-        [target.ticket, fixed.ticket] = [fixed.ticket, target.ticket];
+        [swap.ticket, iter.ticket] = [iter.ticket, swap.ticket];
       }
       print(items);
     })
     .catch((exception) => console.warn(exception));
-}
 
 window.storage = window.localStorage;
 window.fix = fix;
+

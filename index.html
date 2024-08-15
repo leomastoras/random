@@ -52,7 +52,7 @@
           const tickets = range.shuffle().map(Number.pad);
           const items = list.map(
             (item, index) => (
-              (item.id = -~index), (item.ticket = tickets.at(index)), item
+              (item.number = -~index), (item.ticket = tickets.at(index)), item
             )
           );
           fix(items), print(items);
@@ -62,26 +62,30 @@
       function print(items) {
         $("table tbody tr").remove();
         storage.range && $("#range").val(storage.range);
-        for (const { id, gift, donor, ticket } of items) {
+        for (const { number, gift, donor, ticket } of items) {
           const row = `<tr>
-                           <td class="align-middle">${id}</td>
+                           <td class="align-middle">${number}</td>
                            <td class="align-middle">${gift}</td>
                            <td class="align-middle">${donor}</td>
                            <td class="align-middle">
-                               <button id="btn-id${id}" type="button" class="btn btn-secondary"
-                                onclick="$(this).html('<strong>${
-                                  ticket || "-"
-                                }</strong>')
+                               <button
+                                   id="btn-id${number}"
+                                   type="button"
+                                   class="btn btn-secondary"
+                                   onclick="$(this)
+                                       .html('<strong>${
+                                           ticket || "-"
+                                       }</strong>')
                                   .removeClass('btn-secondary')
                                   .addClass('btn-success');
-                                  storage.setItem('id${id}', true);">
+                                  storage.setItem('id${number}', true);">
                                   🎲🎲
                                </button>
                            </td>
                        </tr>`;
 
           $("table tbody").append(row);
-          storage[`id${id}`] && $(`#btn-id${id}`).click();
+          storage[`id${number}`] && $(`#btn-id${number}`).click();
         }
         storage.setItem("list", JSON.stringify(items));
       }
